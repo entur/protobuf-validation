@@ -45,9 +45,8 @@ public class RegexValidator implements Validator {
 	private static final Map<String,Pattern> patternCache = new ConcurrentHashMap<>();
 	
 	@Override
-	public void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriotor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
+	public void validate(GeneratedMessageV3 protoMessage, FieldDescriptor fieldDescriptor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
 			throws MessageValidationException {
-		
 		
 		String regex = rule.getValue().toString();
 		
@@ -58,6 +57,6 @@ public class RegexValidator implements Validator {
 		}
 		
 		String fieldValueStr = fieldValue.toString();
-		ValidationConditions.checkRule(pattern.matcher(fieldValueStr).matches(), messageV3, fieldDescriotor, fieldValue, rule);
+		ValidationConditions.checkRule(pattern.matcher(fieldValueStr).matches(), protoMessage, fieldDescriptor, fieldValue, rule);
 	}
 }

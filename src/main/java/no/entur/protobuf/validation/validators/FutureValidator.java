@@ -40,13 +40,13 @@ import com.google.protobuf.GeneratedMessageV3;
  */
 public class FutureValidator implements Validator {
 	@Override
-	public void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriotor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
+	public void validate(GeneratedMessageV3 protoMessage, FieldDescriptor fieldDescriptor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
 			throws MessageValidationException {
 		Boolean extensionValueBoolean = (Boolean) rule.getValue();
 		Long fieldValueLong = (Long) fieldValue;
 		if (extensionValueBoolean) {
 			long now = System.currentTimeMillis();
-			ValidationConditions.checkRule(now < fieldValueLong, messageV3, fieldDescriotor, fieldValue, rule);
+			ValidationConditions.checkRule(now < fieldValueLong, protoMessage, fieldDescriptor, fieldValue, rule);
 		}
 	}
 }

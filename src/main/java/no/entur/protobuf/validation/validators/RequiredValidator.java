@@ -33,9 +33,9 @@ import com.google.protobuf.GeneratedMessageV3;
 
 public class RequiredValidator implements Validator {
 	@Override
-	public void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriptor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
+	public void validate(GeneratedMessageV3 protoMessage, FieldDescriptor fieldDescriptor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
 			throws MessageValidationException {
-		ValidationConditions.checkRule(messageV3.hasField(fieldDescriptor), messageV3, fieldDescriptor, fieldValue, rule);
+		ValidationConditions.checkRule(protoMessage.hasField(fieldDescriptor), protoMessage, fieldDescriptor, fieldValue, rule);
 	}
 
 }

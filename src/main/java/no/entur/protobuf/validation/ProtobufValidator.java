@@ -40,24 +40,24 @@ public class ProtobufValidator {
 		}
 	}
 
-	public void validate(GeneratedMessageV3 messageV3) throws MessageValidationException {
-		for (Descriptors.FieldDescriptor fieldDescriptor : messageV3.getDescriptorForType().getFields()) {
+	public void validate(GeneratedMessageV3 protoMessage) throws MessageValidationException {
+		for (Descriptors.FieldDescriptor fieldDescriptor : protoMessage.getDescriptorForType().getFields()) {
 
 			Object fieldValue = null;
 			if (fieldDescriptor.isRepeated()) {
-				fieldValue = messageV3.getField(fieldDescriptor);
+				fieldValue = protoMessage.getField(fieldDescriptor);
 			} else {
-				fieldValue = messageV3.hasField(fieldDescriptor) ? messageV3.getField(fieldDescriptor) : null;
+				fieldValue = protoMessage.hasField(fieldDescriptor) ? protoMessage.getField(fieldDescriptor) : null;
 			}
 
-			if (messageV3.getField(fieldDescriptor) instanceof GeneratedMessageV3) {
-				doValidate(messageV3, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
-				if (messageV3.hasField(fieldDescriptor)) {
-					GeneratedMessageV3 subMessageV3 = (GeneratedMessageV3) messageV3.getField(fieldDescriptor);
+			if (protoMessage.getField(fieldDescriptor) instanceof GeneratedMessageV3) {
+				doValidate(protoMessage, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
+				if (protoMessage.hasField(fieldDescriptor)) {
+					GeneratedMessageV3 subMessageV3 = (GeneratedMessageV3) protoMessage.getField(fieldDescriptor);
 					validate(subMessageV3);
 				}
 			} else if (fieldDescriptor.getOptions().getAllFields().size() > 0) {
-				doValidate(messageV3, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
+				doValidate(protoMessage, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
 			}
 		}
 	}

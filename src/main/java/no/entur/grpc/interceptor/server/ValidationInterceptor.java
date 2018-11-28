@@ -47,9 +47,9 @@ public class ValidationInterceptor implements ServerInterceptor {
 		return new ForwardingServerCallListener.SimpleForwardingServerCallListener<ReqT>(listener) {
 			@Override
 			public void onMessage(ReqT message) {
-				GeneratedMessageV3 messageV3 = (GeneratedMessageV3) message;
+				GeneratedMessageV3 protoMessage = (GeneratedMessageV3) message;
 				try {
-					validator.validate(messageV3);
+					validator.validate(protoMessage);
 					super.onMessage(message);
 				} catch (Exception e) {
 					Status status = Status.INVALID_ARGUMENT.withDescription(e.getMessage());

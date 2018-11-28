@@ -33,6 +33,6 @@ import com.google.protobuf.GeneratedMessageV3;
  */
 public interface Validator {
 
-	void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriptor, Object fieldValue, Entry<FieldDescriptor, Object> extensionValue)
+	void validate(GeneratedMessageV3 protoMessage, FieldDescriptor fieldDescriptor, Object fieldValue, Entry<FieldDescriptor, Object> extensionValue)
 			throws MessageValidationException;
 }

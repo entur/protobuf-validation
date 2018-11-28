@@ -28,10 +28,10 @@ import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.GeneratedMessageV3;
 
 public class ValidationConditions {
-	public static void checkRule(boolean b, GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriotor, Object fieldValue,
+	public static void checkRule(boolean b, GeneratedMessageV3 protoMessage, FieldDescriptor fieldDescriptor, Object fieldValue,
 			Map.Entry<Descriptors.FieldDescriptor, Object> extensionValue) throws MessageValidationException {
 		if (!b) {
-			throw new MessageValidationException(messageV3, fieldDescriotor, fieldValue, extensionValue);
+			throw new MessageValidationException(protoMessage, fieldDescriptor, fieldValue, extensionValue);
 		}
 	}
 }

@@ -45,9 +45,9 @@ public class ValidationInterceptor implements ClientInterceptor {
 		return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(next.newCall(method, callOptions)) {
 			@Override
 			public void sendMessage(ReqT message) {
-				GeneratedMessageV3 messageV3 = (GeneratedMessageV3) message;
+				GeneratedMessageV3 protoMessage = (GeneratedMessageV3) message;
 				try {
-					validator.validate(messageV3);
+					validator.validate(protoMessage);
 					super.sendMessage(message);
 				} catch (MessageValidationException e) {
 					throw new RuntimeException("Message validation failed: "+e.getMessage());
