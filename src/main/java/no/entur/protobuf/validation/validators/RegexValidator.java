@@ -22,6 +22,7 @@ package no.entur.protobuf.validation.validators;
  */
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import com.google.protobuf.Descriptors;
@@ -40,12 +41,23 @@ import com.google.protobuf.GeneratedMessageV3;
  * @date 2017/6/28
  */
 public class RegexValidator implements Validator {
+	
+	private static final Map<String,Pattern> patternCache = new ConcurrentHashMap<>();
+	
 	@Override
 	public void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriotor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
 			throws MessageValidationException {
-		String extensionValueStr = rule.getValue().toString();
+		
+		
+		String regex = rule.getValue().toString();
+		
+		Pattern pattern = patternCache.get(regex);
+		if(pattern == null) {
+			pattern = Pattern.compile(regex);
+			patternCache.put(regex, pattern);
+		}
+		
 		String fieldValueStr = fieldValue.toString();
-		Pattern pattern = Pattern.compile(extensionValueStr);
 		ValidationConditions.checkRule(pattern.matcher(fieldValueStr).matches(), messageV3, fieldDescriotor, fieldValue, rule);
 	}
 }
