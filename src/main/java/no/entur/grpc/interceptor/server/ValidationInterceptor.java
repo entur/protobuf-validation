@@ -29,6 +29,7 @@ import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
+import no.entur.protobuf.validation.MessageValidationException;
 import no.entur.protobuf.validation.ProtobufValidator;
 
 /**
@@ -51,9 +52,8 @@ public class ValidationInterceptor implements ServerInterceptor {
 				try {
 					validator.validate(protoMessage);
 					super.onMessage(message);
-				} catch (Exception e) {
-					Status status = Status.INVALID_ARGUMENT.withDescription(e.getMessage());
-					// call.close(status, headers);
+				} catch (MessageValidationException e) {
+					Status status = Status.INVALID_ARGUMENT.withDescription(e.getMessage()).withCause(e);
 					throw new StatusRuntimeException(status);
 				}
 			}

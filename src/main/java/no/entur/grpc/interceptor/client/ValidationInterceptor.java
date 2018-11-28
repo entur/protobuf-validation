@@ -28,6 +28,8 @@ import io.grpc.ClientCall;
 import io.grpc.ClientInterceptor;
 import io.grpc.ForwardingClientCall;
 import io.grpc.MethodDescriptor;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import no.entur.protobuf.validation.MessageValidationException;
 import no.entur.protobuf.validation.ProtobufValidator;
 
@@ -50,7 +52,8 @@ public class ValidationInterceptor implements ClientInterceptor {
 					validator.validate(protoMessage);
 					super.sendMessage(message);
 				} catch (MessageValidationException e) {
-					throw new RuntimeException("Message validation failed: "+e.getMessage());
+					Status status = Status.INVALID_ARGUMENT.withDescription(e.getMessage()).withCause(e);
+					throw new StatusRuntimeException(status);
 				}
 			}
 		};
