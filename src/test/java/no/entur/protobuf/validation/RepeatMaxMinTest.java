@@ -59,4 +59,21 @@ public class RepeatMaxMinTest {
 		assertThrows(MessageValidationException.class, e);
 
 	}
+
+	@Test
+	public void testRepeatMaxHigh() {
+		RepeatMaxMin b = RepeatMaxMin.newBuilder().addHobbies("Football").addHobbies("Swimming").addHobbies("Skiing").addHobbies("Riding")
+				.addHobbies("Flying").build();
+		Executable e = () -> validator.validate(b);
+		assertDoesNotThrow(e);
+
+	}
+
+	@Test
+	public void testRepeatMinLow() {
+		RepeatMaxMin b = RepeatMaxMin.newBuilder().addHobbies("Football").addHobbies("Yoga").build();
+		Executable e = () -> validator.validate(b);
+		assertDoesNotThrow(e);
+
+	}
 }

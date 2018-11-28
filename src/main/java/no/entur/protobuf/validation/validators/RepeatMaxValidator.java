@@ -44,6 +44,6 @@ public class RepeatMaxValidator implements Validator {
 	public void validate(GeneratedMessageV3 messageV3, FieldDescriptor fieldDescriotor, Object fieldValue, Map.Entry<Descriptors.FieldDescriptor, Object> rule)
 			throws MessageValidationException {
 		Collection<?> fieldValueCol = (Collection<?>) fieldValue;
-		ValidationConditions.checkRule(fieldValueCol.size() < (Long) rule.getValue(), messageV3, fieldDescriotor, fieldValue, rule);
+		ValidationConditions.checkRule(fieldValueCol.size() <= (Long) rule.getValue(), messageV3, fieldDescriotor, fieldValue, rule);
 	}
 }

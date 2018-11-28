@@ -58,4 +58,20 @@ public class NumberMaxMinTest {
 		assertThrows(MessageValidationException.class, e);
 
 	}
+
+	@Test
+	public void testNumberMax() {
+		NumberMaxMin b = NumberMaxMin.newBuilder().setAge(100).build();
+		Executable e = () -> validator.validate(b);
+		assertDoesNotThrow(e);
+
+	}
+
+	@Test
+	public void testNumberMin() {
+		NumberMaxMin b = NumberMaxMin.newBuilder().setAge(18).build();
+		Executable e = () -> validator.validate(b);
+		assertDoesNotThrow(e);
+
+	}
 }

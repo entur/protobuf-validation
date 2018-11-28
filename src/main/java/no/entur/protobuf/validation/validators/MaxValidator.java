@@ -45,16 +45,16 @@ public class MaxValidator implements Validator {
 		String extensionValueStr = rule.getValue().toString();
 		String fieldValueStr = fieldValue.toString();
 		if (fieldValue instanceof Long) {
-			ValidationConditions.checkRule(Long.valueOf(extensionValueStr) > Long.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
+			ValidationConditions.checkRule(Long.valueOf(extensionValueStr) >= Long.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
 		}
 		if (fieldValue instanceof Integer) {
-			ValidationConditions.checkRule(Integer.valueOf(extensionValueStr) > Integer.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
+			ValidationConditions.checkRule(Integer.valueOf(extensionValueStr) >= Integer.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
 		}
 		if (fieldValue instanceof Float) {
-			ValidationConditions.checkRule(Float.valueOf(extensionValueStr) > Float.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
+			ValidationConditions.checkRule(Float.valueOf(extensionValueStr) >= Float.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
 		}
 		if (fieldValue instanceof Double) {
-			ValidationConditions.checkRule(Double.valueOf(extensionValueStr) > Double.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
+			ValidationConditions.checkRule(Double.valueOf(extensionValueStr) >= Double.valueOf(fieldValueStr), messageV3, fieldDescriotor, fieldValue, rule);
 		}
 	}
 }
