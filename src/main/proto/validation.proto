@@ -14,6 +14,6 @@ extend google.protobuf.FieldOptions {
     optional int64 repeatMax = 50005;
     optional int64 repeatMin = 50006;
     optional string regex = 50007;
-    optional string required = 50008;
-    optional string forbidden = 50009;
+    optional bool required = 50008;
+    optional bool forbidden = 50009;
 }

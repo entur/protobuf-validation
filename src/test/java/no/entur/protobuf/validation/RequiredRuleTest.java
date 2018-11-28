@@ -27,9 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import no.entur.protobuf.validation.MessageValidationException;
-import no.entur.protobuf.validation.ProtobufValidator;
-import validation.RegexMatch;
+import validation.Required;
 
 public class RequiredRuleTest {
 
@@ -37,7 +35,7 @@ public class RequiredRuleTest {
 
 	@Test
 	public void testRuleFail() {
-		RegexMatch b = RegexMatch.newBuilder().setName("00").build();
+		Required b = Required.newBuilder().build();
 		Executable e = () -> validator.validate(b);
 		assertThrows(MessageValidationException.class, e);
 
@@ -45,7 +43,7 @@ public class RequiredRuleTest {
 
 	@Test
 	public void testRulePass() {
-		RegexMatch b = RegexMatch.newBuilder().setName("AB").build();
+		Required b = Required.newBuilder().setName("Required").build();
 
 		Executable e = () -> validator.validate(b);
 		assertDoesNotThrow(e);

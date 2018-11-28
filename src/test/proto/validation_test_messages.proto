@@ -13,7 +13,11 @@ message RegexMismatch {
 }
 
 message Forbidden {
-	string name = 1 [(validation.forbidden) = ""];
+	string name = 1 [(validation.forbidden) = true];
+}
+
+message Required {
+	string name = 1 [(validation.required) = true];
 }
 
 message Future {
