@@ -1,4 +1,4 @@
-# Protobuf validation libary [![CircleCI](https://circleci.com/gh/entur/protobuf-validation/tree/master.svg?style=svg&circle-token=579b7169ab744607b6748aafb5ec56df01fbd4db)](https://circleci.com/gh/entur/protobuf-validation/tree/master)
+# Protobuf validation libary [![CircleCI](https://circleci.com/gh/entur/protobuf-validation.svg?style=svg)](https://circleci.com/gh/entur/protobuf-validation)
 
 This library allows you to add validation statements inside the proto files as options to fields.
 
