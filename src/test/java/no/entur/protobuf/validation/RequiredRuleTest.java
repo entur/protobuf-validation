@@ -48,4 +48,12 @@ public class RequiredRuleTest {
 		Executable e = () -> validator.validate(b);
 		assertDoesNotThrow(e);
 	}
+
+	@Test
+	public void testEmptyString() {
+		Required b = Required.newBuilder().setName("").build();
+
+		Executable e = () -> validator.validate(b);
+		assertThrows(MessageValidationException.class, e);
+	}
 }
