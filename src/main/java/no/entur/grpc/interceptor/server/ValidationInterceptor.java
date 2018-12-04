@@ -1,5 +1,8 @@
 package no.entur.grpc.interceptor.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*-
  * #%L
  * Protobuf validator
@@ -39,6 +42,8 @@ import no.entur.protobuf.validation.ProtobufValidator;
  */
 public class ValidationInterceptor implements ServerInterceptor {
 
+	private final static Logger LOGGER = Logger.getLogger(ValidationInterceptor.class.getName());
+
 	private ProtobufValidator validator = new ProtobufValidator();
 
 	@Override
@@ -53,8 +58,13 @@ public class ValidationInterceptor implements ServerInterceptor {
 					validator.validate(protoMessage);
 					super.onMessage(message);
 				} catch (MessageValidationException e) {
-					Status status = Status.INVALID_ARGUMENT.withDescription(e.getMessage()).withCause(e);
-					throw new StatusRuntimeException(status);
+					
+					String exceptionMessage = e.getMessage();
+					if(LOGGER.isLoggable(Level.INFO)) {
+						LOGGER.info("Message validation failed: "+exceptionMessage);
+					}
+					Status status = Status.INVALID_ARGUMENT.withDescription(exceptionMessage);
+					throw status.asRuntimeException();
 				}
 			}
 		};
