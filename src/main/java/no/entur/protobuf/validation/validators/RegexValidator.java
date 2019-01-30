@@ -56,9 +56,7 @@ public class RegexValidator implements Validator {
 			patternCache.put(regex, pattern);
 		}
 		
-		ValidationConditions.checkRule(fieldValue != null, protoMessage, fieldDescriptor, fieldValue, rule);
-		
-		String fieldValueStr = fieldValue.toString();
+		String fieldValueStr = (fieldValue == null? "": fieldValue.toString());
 		ValidationConditions.checkRule(pattern.matcher(fieldValueStr).matches(), protoMessage, fieldDescriptor, fieldValue, rule);
 	}
 }
