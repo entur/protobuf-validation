@@ -20,6 +20,11 @@ message Required {
 	string name = 1 [(validation.required) = true];
 }
 
+message RequiredRepeated {
+	repeated string name = 1 [(validation.required) = true];
+}
+
+
 message Future {
 	int64 future_timemilles = 1 [(validation.future) = true];
 }
