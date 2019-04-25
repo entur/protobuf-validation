@@ -31,7 +31,6 @@ import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
 import no.entur.protobuf.validation.MessageValidationException;
 import no.entur.protobuf.validation.ProtobufValidator;
 
@@ -64,7 +63,15 @@ public class ValidationInterceptor implements ServerInterceptor {
 						LOGGER.info("Message validation failed: "+exceptionMessage);
 					}
 					Status status = Status.INVALID_ARGUMENT.withDescription(exceptionMessage);
-					throw status.asRuntimeException();
+					call.close(status, new Metadata());
+				} catch (Exception e) {
+					
+					String exceptionMessage = e.getMessage();
+					if(LOGGER.isLoggable(Level.INFO)) {
+						LOGGER.info("Message processing failed: "+exceptionMessage);
+					}
+					Status status = Status.INTERNAL.withDescription(exceptionMessage);
+					call.close(status, new Metadata());
 				}
 			}
 		};

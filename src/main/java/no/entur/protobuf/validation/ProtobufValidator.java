@@ -36,7 +36,14 @@ public class ProtobufValidator {
 	private void doValidate(GeneratedMessageV3 message, FieldDescriptor fieldDescriptor, Object fieldValue, DescriptorProtos.FieldOptions options)
 			throws IllegalArgumentException, MessageValidationException {
 		for (Map.Entry<Descriptors.FieldDescriptor, Object> entry : options.getAllFields().entrySet()) {
-			ValidatorRegistry.getValidator(entry.getKey()).validate(message, fieldDescriptor, fieldValue, entry);
+			try {
+				ValidatorRegistry.getValidator(entry.getKey()).validate(message, fieldDescriptor, fieldValue, entry);
+			} catch (MessageValidationException e) {
+				throw e; // Just rethrow
+			} catch(UnsupportedOperationException e) {
+				// Add more info and rethrow
+				throw new UnsupportedOperationException("Error validating field "+fieldDescriptor+ " with value "+fieldValue+ " and rule "+entry+ " due to "+e.getMessage(),e);
+			}
 		}
 	}
 
@@ -52,7 +59,7 @@ public class ProtobufValidator {
 
 			if (protoMessage.getField(fieldDescriptor) instanceof GeneratedMessageV3) {
 				doValidate(protoMessage, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
-				if (protoMessage.hasField(fieldDescriptor)) {
+				if (fieldDescriptor.isRepeated() ||protoMessage.hasField(fieldDescriptor)) {
 					GeneratedMessageV3 subMessageV3 = (GeneratedMessageV3) protoMessage.getField(fieldDescriptor);
 					validate(subMessageV3);
 				}
