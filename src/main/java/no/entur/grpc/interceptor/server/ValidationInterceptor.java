@@ -43,7 +43,17 @@ public class ValidationInterceptor implements ServerInterceptor {
 
 	private final static Logger LOGGER = Logger.getLogger(ValidationInterceptor.class.getName());
 
-	private ProtobufValidator validator = new ProtobufValidator();
+	private ProtobufValidator validator;
+
+
+	public ValidationInterceptor(ProtobufValidator validator) {
+		this.validator = validator;
+	}
+
+	public ValidationInterceptor() {
+		this(ProtobufValidator.globalValidator());
+	}
+
 
 	@Override
 	public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(final ServerCall<ReqT, RespT> call, final Metadata headers,
