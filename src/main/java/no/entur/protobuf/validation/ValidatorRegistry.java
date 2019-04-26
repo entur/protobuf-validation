@@ -47,14 +47,25 @@ public class ValidatorRegistry {
 
 	private Map<Descriptors.FieldDescriptor, Validator> validatorMap;
 
+    /**
+     * Constructor which builds a {@link ValidatorRegistry} with predefined validators from the validatorMap.
+     */
 	public ValidatorRegistry(Map<Descriptors.FieldDescriptor, Validator> validatorMap) {
 		this.validatorMap = validatorMap;
 	}
 
+    /**
+     * The default constructor which builds a empty {@link ValidatorRegistry}.
+     */
 	public ValidatorRegistry() {
 		this(Maps.newConcurrentMap());
 	}
 
+    /**
+     * @param descriptor The descriptor for which the {@link Validator} should be removed.
+     * @return {@link Validator} The validator for a {@link com.google.protobuf.Descriptors.FieldDescriptor} or
+     *         null if none is registered.
+     */
 	public Validator getValidator(Descriptors.FieldDescriptor descriptor) {
 		return validatorMap.get(descriptor);
 	}
@@ -100,7 +111,9 @@ public class ValidatorRegistry {
 		}
 	}
 
-
+    /**
+     * @return The globally shared {@link ValidatorRegistry}.
+     */
 	public static ValidatorRegistry globalValidatorRegistry() {
 		return globalValidatorRegistry;
 	}

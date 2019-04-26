@@ -34,7 +34,7 @@ import com.google.protobuf.GeneratedMessageV3;
  */
 public class ProtobufValidator {
 
-	private static ProtobufValidator globalProtobufValidator = new ProtobufValidator(ValidatorRegistry.globalValidatorRegistry());
+	private static ProtobufValidator globalProtobufValidator = new ProtobufValidator();
 
 	private ValidatorRegistry validatorRegistry;
 
@@ -44,6 +44,13 @@ public class ProtobufValidator {
 	public ProtobufValidator(ValidatorRegistry validatorRegistry) {
 		this.validatorRegistry = validatorRegistry;
 	}
+
+    /**
+     * The default constructor which uses the global {@link ValidatorRegistry}.
+     */
+	public ProtobufValidator() {
+	    this(ValidatorRegistry.globalValidatorRegistry());
+    }
 
 	private void doValidate(GeneratedMessageV3 message, FieldDescriptor fieldDescriptor, Object fieldValue, DescriptorProtos.FieldOptions options)
 			throws IllegalArgumentException, MessageValidationException {
@@ -83,10 +90,16 @@ public class ProtobufValidator {
 		}
 	}
 
+    /**
+     * @return The globally shared {@link ProtobufValidator}.
+     */
 	public static ProtobufValidator globalValidator() {
 		return globalProtobufValidator;
 	}
 
+    /**
+     * @return A {@link ProtobufValidator} with a default {@link ValidatorRegistry}.
+     */
 	public static ProtobufValidator createDefaultValidator() {
 		return new ProtobufValidator(ValidatorRegistry.createDefaultRegistry());
 	}
