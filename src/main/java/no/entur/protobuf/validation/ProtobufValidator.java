@@ -33,13 +33,30 @@ import com.google.protobuf.GeneratedMessageV3;
  * @author seime
  */
 public class ProtobufValidator {
+
+	private static ProtobufValidator globalProtobufValidator = new ProtobufValidator();
+
+	private ValidatorRegistry validatorRegistry;
+
+	/**
+	 * @param validatorRegistry The {@link ValidatorRegistry} which should be used for validation.
+	 */
+	public ProtobufValidator(ValidatorRegistry validatorRegistry) {
+		this.validatorRegistry = validatorRegistry;
+	}
+
+    /**
+     * The default constructor which uses the global {@link ValidatorRegistry}.
+     */
+	public ProtobufValidator() {
+	    this(ValidatorRegistry.globalValidatorRegistry());
+    }
+
 	private void doValidate(GeneratedMessageV3 message, FieldDescriptor fieldDescriptor, Object fieldValue, DescriptorProtos.FieldOptions options)
 			throws IllegalArgumentException, MessageValidationException {
 		for (Map.Entry<Descriptors.FieldDescriptor, Object> entry : options.getAllFields().entrySet()) {
 			try {
-				ValidatorRegistry.getValidator(entry.getKey()).validate(message, fieldDescriptor, fieldValue, entry);
-			} catch (MessageValidationException e) {
-				throw e; // Just rethrow
+				validatorRegistry.getValidator(entry.getKey()).validate(message, fieldDescriptor, fieldValue, entry);
 			} catch(UnsupportedOperationException e) {
 				// Add more info and rethrow
 				throw new UnsupportedOperationException("Error validating field "+fieldDescriptor+ " with value "+fieldValue+ " and rule "+entry+ " due to "+e.getMessage(),e);
@@ -47,10 +64,14 @@ public class ProtobufValidator {
 		}
 	}
 
+	/**
+	 * @param protoMessage The protobuf message object to validate
+	 * @throws MessageValidationException Further information about the failed field
+	 */
 	public void validate(GeneratedMessageV3 protoMessage) throws MessageValidationException {
 		for (Descriptors.FieldDescriptor fieldDescriptor : protoMessage.getDescriptorForType().getFields()) {
 
-			Object fieldValue = null;
+			Object fieldValue;
 			if (fieldDescriptor.isRepeated()) {
 				fieldValue = protoMessage.getField(fieldDescriptor);
 			} else {
@@ -67,6 +88,20 @@ public class ProtobufValidator {
 				doValidate(protoMessage, fieldDescriptor, fieldValue, fieldDescriptor.getOptions());
 			}
 		}
+	}
+
+    /**
+     * @return The globally shared {@link ProtobufValidator}.
+     */
+	public static ProtobufValidator globalValidator() {
+		return globalProtobufValidator;
+	}
+
+    /**
+     * @return A {@link ProtobufValidator} with a default {@link ValidatorRegistry}.
+     */
+	public static ProtobufValidator createDefaultValidator() {
+		return new ProtobufValidator(ValidatorRegistry.createDefaultRegistry());
 	}
 
 }

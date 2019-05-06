@@ -40,7 +40,17 @@ import no.entur.protobuf.validation.ProtobufValidator;
  */
 public class ValidationInterceptor implements ClientInterceptor {
 
-	private ProtobufValidator validator = new ProtobufValidator();
+	private ProtobufValidator validator;
+
+
+	public ValidationInterceptor(ProtobufValidator validator) {
+		this.validator = validator;
+	}
+
+	public ValidationInterceptor() {
+		this(ProtobufValidator.globalValidator());
+	}
+
 
 	@Override
 	public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next) {
