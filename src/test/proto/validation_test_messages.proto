@@ -40,3 +40,7 @@ message NumberMaxMin {
 message RepeatMaxMin {
 	repeated string hobbies = 1 [(validation.repeatMax) = 5, (validation.repeatMin) = 2];
 }
+
+message NestedRepeatedMessages {
+    repeated Required messages = 1;
+}
