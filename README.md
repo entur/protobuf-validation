@@ -1,3 +1,9 @@
+# DEPRECATED AND ARCHIVED
+
+https://github.com/envoyproxy/protoc-gen-validate now supports Java. PGV is much richer in terms of validation rules.
+
+This project has entered ARCHIVED state and will not be maintained.
+
 # Protobuf validation libary [![CircleCI](https://circleci.com/gh/entur/protobuf-validation.svg?style=svg)](https://circleci.com/gh/entur/protobuf-validation)
 
 This library allows you to add validation statements inside the proto files as options to fields.
