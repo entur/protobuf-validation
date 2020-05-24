@@ -1,12 +1,13 @@
 package no.entur.protobuf.validation;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import validation.Required;
-import validation.RequiredRepeated;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import validation.NestedRepeatedMessages;
+import validation.Required;
+import validation.RequiredRepeated;
 
 /*-
  * #%L
@@ -71,5 +72,35 @@ public class RequiredRuleTest {
 		assertThrows(MessageValidationException.class, e);
 
 	}
+
+    @Test
+    public void testRepeatedNestedFieldPass() {
+        Required a = Required.newBuilder().setName("a").build();
+        Required b = Required.newBuilder().setName("b").build();
+
+        NestedRepeatedMessages m = NestedRepeatedMessages.newBuilder().addMessages(a).addMessages(b).build();
+        Executable e = () -> validator.validate(m);
+        assertDoesNotThrow(e);
+    }
+
+    @Test
+    public void testRepeatedNestedFieldFail1() {
+        Required a = Required.newBuilder().setName("").build();
+        Required b = Required.newBuilder().setName("b").build();
+
+        NestedRepeatedMessages m = NestedRepeatedMessages.newBuilder().addMessages(a).addMessages(b).build();
+        Executable e = () -> validator.validate(m);
+        assertThrows(MessageValidationException.class, e);
+    }
+
+    @Test
+    public void testRepeatedNestedFieldFail2() {
+        Required a = Required.newBuilder().setName("a").build();
+        Required b = Required.newBuilder().build();
+
+        NestedRepeatedMessages m = NestedRepeatedMessages.newBuilder().addMessages(a).addMessages(b).build();
+        Executable e = () -> validator.validate(m);
+        assertThrows(MessageValidationException.class, e);
+    }
 
 }

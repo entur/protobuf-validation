@@ -58,9 +58,9 @@ message HelloRequest {
     int32 age = 2 [(validation.max) = 100, (validation.min) = 18];
     repeated string hobbies = 3 [(validation.repeatMax) = 5, (validation.repeatMin) = 2];
     map<string, string> bagOfTricks = 4 [(validation.repeatMax) = 10, (validation.repeatMin) = 2];
-    Sentiment sentiment = 5 [(validation.required) = true;
+    Sentiment sentiment = 5 [(validation.required) = true];
     int64 future_timemilles = 6 [(validation.future) = true];
     int64 past_timemilles = 7 [(validation.past) = true];
-    string forbidden_field = 8 [(validation.forbidden) = true;
+    string forbidden_field = 8 [(validation.forbidden) = true];
 }
 ```
