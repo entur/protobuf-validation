@@ -47,7 +47,7 @@
 
 	<properties>
 		<grpc.version>1.16.1</grpc.version>
-		<protobuf.version>3.6.1</protobuf.version>
+		<protobuf.version>3.16.1</protobuf.version>
 		<java-compiler.version>1.8</java-compiler.version>
 	</properties>
 
